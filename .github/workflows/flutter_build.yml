@@ -1,0 +1,44 @@
+name: Flutter Android/iOS CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.1'
+
+      - name: Install dependencies
+        run: |
+          cd fixbuddy
+          flutter pub get
+
+      - name: Run Analyzer
+        run: |
+          cd fixbuddy
+          flutter analyze
+
+      - name: Run Tests
+        run: |
+          cd fixbuddy
+          flutter test
+
+      - name: Build APK
+        run: |
+          cd fixbuddy
+          flutter build apk --release
+
+      - name: Build AppBundle (AAB)
+        run: |
+          cd fixbuddy
+          flutter build appbundle --release
