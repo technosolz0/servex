@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        
+        {
+            "name": "servex_users",
+            "cwd": "servex_users",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "servex_users (profile mode)",
+            "cwd": "servex_users",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "servex_users (release mode)",
+            "cwd": "servex_users",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "servex_vendor",
+            "cwd": "servex_vendor",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "servex_vendor (profile mode)",
+            "cwd": "servex_vendor",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "servex_vendor (release mode)",
+            "cwd": "servex_vendor",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
