@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OtpView extends StatelessWidget {
-  OtpView({Key? key}) : super(key: key);
+  OtpView({super.key});
 
   final VerifyOtpController controller = Get.put(VerifyOtpController());
 

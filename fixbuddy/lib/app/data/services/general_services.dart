@@ -164,7 +164,7 @@ class GeneralServices {
           return true;
         } else {
           ServexUtils.showSnackbar(
-            SnackType.ERROR,
+            SnackType.error,
             response.data['message'] ?? 'Something went wrong!',
           );
           return false;

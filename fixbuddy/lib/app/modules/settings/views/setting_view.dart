@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:fixbuddy/app/constants/app_color.dart';
 import 'package:fixbuddy/app/widgets/customListTile.dart';

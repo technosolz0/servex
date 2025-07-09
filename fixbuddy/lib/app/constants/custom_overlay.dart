@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fixbuddy/app/utils/theme.dart';
 
-enum SnackAlignment { TOP, CENTER, BOTTOM }
+enum SnackAlignment { top, center, bottom }
 
 enum SnackType {
-  ERROR(Icons.error),
-  INFO(Icons.info_rounded),
-  SUCCESS(Icons.check_circle);
+  error(Icons.error),
+  info(Icons.info_rounded),
+  success(Icons.check_circle);
 
   const SnackType(this.icon);
   final IconData icon;
@@ -28,12 +28,12 @@ class CustomSnackbar {
         // Without Stack we will not able to align our Snackbar at center of widget
         children: [
           Positioned(
-            top: alignment == SnackAlignment.TOP ? kToolbarHeight : null,
-            bottom: alignment == SnackAlignment.BOTTOM ? kToolbarHeight : null,
+            top: alignment == SnackAlignment.top ? kToolbarHeight : null,
+            bottom: alignment == SnackAlignment.bottom ? kToolbarHeight : null,
             child: Material(
-              color: type == SnackType.ERROR
+              color: type == SnackType.error
                   ? Colors.red
-                  : type == SnackType.SUCCESS
+                  : type == SnackType.success
                   ? ThemeClass.successGreen
                   : ThemeClass.infoYello,
               borderRadius: BorderRadius.circular(5),
@@ -74,8 +74,8 @@ class CustomSnackbar {
   static show({
     String? message,
     required BuildContext context,
-    SnackAlignment alignment = SnackAlignment.BOTTOM,
-    SnackType type = SnackType.SUCCESS,
+    SnackAlignment alignment = SnackAlignment.bottom,
+    SnackType type = SnackType.success,
   }) {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();

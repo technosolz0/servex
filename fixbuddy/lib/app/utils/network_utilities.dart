@@ -69,7 +69,7 @@ class NetworkServexUtils {
         snackbarBody = 'Some error occurred.';
     }
 
-    ServexUtils.showSnackbar(SnackType.ERROR, snackbarBody);
+    ServexUtils.showSnackbar(SnackType.error, snackbarBody);
   }
 
   /// handle session expiry when jwt token is expired i.e When status code is 401
@@ -84,16 +84,16 @@ class NetworkServexUtils {
     if (statusCode == 401) {
       await ServexUtils.logOut();
       ServexUtils.showSnackbar(
-        SnackType.INFO,
+        SnackType.info,
         'Your session has been expired. Please login again.',
       );
     } else if (statusCode == 413) {
       ServexUtils.showSnackbar(
-        SnackType.INFO,
+        SnackType.info,
         'Maximum limit reached for request.',
       );
     } else {
-      ServexUtils.showSnackbar(SnackType.ERROR, defaultMsg);
+      ServexUtils.showSnackbar(SnackType.error, defaultMsg);
     }
   }
 }

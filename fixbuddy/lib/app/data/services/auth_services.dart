@@ -143,7 +143,7 @@ class AuthServices {
         if (result == 1) {
           return true;
         } else {
-          ServexUtils.showSnackbar(SnackType.ERROR, response.data['message']);
+          ServexUtils.showSnackbar(SnackType.error, response.data['message']);
           return false;
         }
       } else {
@@ -177,7 +177,7 @@ class AuthServices {
           return true;
         } else {
           ServexUtils.showSnackbar(
-            SnackType.ERROR,
+            SnackType.error,
             response.data['message'] ??
                 getx.Get.context!.l10n.something_went_wrong,
           );
@@ -212,7 +212,7 @@ class AuthServices {
           return true;
         } else {
           ServexUtils.showSnackbar(
-            SnackType.ERROR,
+            SnackType.error,
             response.data['message'] ??
                 getx.Get.context!.l10n.something_went_wrong,
           );
@@ -251,7 +251,7 @@ class AuthServices {
           return true;
         } else {
           ServexUtils.showSnackbar(
-            SnackType.ERROR,
+            SnackType.error,
             response.data['message'] ??
                 getx.Get.context!.l10n.something_went_wrong,
           );
