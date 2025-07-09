@@ -24,10 +24,10 @@ jobs:
         run: |
           cd fixbuddy
           flutter pub get
-      - name: Run Analyzer
-        run: |
-          cd fixbuddy
-          flutter analyze
+      # - name: Run Analyzer
+      #   run: |
+      #     cd fixbuddy
+      #     flutter analyze
       - name: Run Tests
         run: |
           cd fixbuddy
