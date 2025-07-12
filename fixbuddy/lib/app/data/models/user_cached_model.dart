@@ -1,12 +1,12 @@
 import 'package:fixbuddy/app/constants/app_constants.dart';
 
 class UserCachedModel {
-  final String id;
+  final int id;
   final String fullName;
   final String email;
   final String profilePhoto;
   final Gender? gender;
-  final DateTime ?dob;
+  final DateTime? dob;
   final String? companyId;
   final String mobile;
 
@@ -15,9 +15,9 @@ class UserCachedModel {
     required this.fullName,
     required this.email,
     required this.profilePhoto,
-     this.gender,
-     this.dob,
-     this.companyId,
+    this.gender,
+    this.dob,
+    this.companyId,
     required this.mobile,
   });
 
@@ -49,7 +49,7 @@ class UserCachedModel {
 
   static UserCachedModel initialize() {
     return UserCachedModel(
-      id: '',
+      id: 0,
       fullName: '',
       email: '',
       profilePhoto: '',
@@ -61,7 +61,7 @@ class UserCachedModel {
   }
 
   UserCachedModel copyWith({
-    String? id,
+    int? id,
     String? fullName,
     String? email,
     String? profilePhoto,

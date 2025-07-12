@@ -1,6 +1,7 @@
 import 'package:fixbuddy/app/constants/app_color.dart';
 import 'package:fixbuddy/app/modules/auth/controllers/verify_otp_controller.dart';
 import 'package:fixbuddy/app/widgets/custom_app_bar.dart';
+import 'package:fixbuddy/app/widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -89,6 +90,13 @@ class OtpView extends StatelessWidget {
                         ),
                 ),
               ),
+            ),
+            const SizedBox(height: 20),
+            CustomTextButton(
+              label: 'resend',
+              onPressed: () {
+                controller.resendOtp(email, flowType);
+              },
             ),
           ],
         ),

@@ -1,12 +1,16 @@
 // ignore_for_file: avoid_print
 
+import 'package:fixbuddy/app/modules/login/controllers/login_controller.dart';
+import 'package:fixbuddy/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fixbuddy/app/constants/app_color.dart';
 import 'package:fixbuddy/app/widgets/customListTile.dart';
 import 'package:fixbuddy/app/widgets/custom_app_bar.dart';
+import 'package:get/get.dart';
 
 class SettingView extends StatelessWidget {
-  const SettingView({super.key});
+  SettingView({super.key});
+  final LoginController loginController = LoginController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,24 @@ class SettingView extends StatelessWidget {
                     onTap: () {
                       // open location screen
                       print('Location tapped');
+                    },
+                  ),
+                  CustomListTile(
+                    leading: Icons.person,
+                    title: Text("Become a Vendor"),
+                    onTap: () {
+                      Get.toNamed(Routes.providerRegister);
+                      // Optionally, navigate to the login screen or show a confirmation dialog
+                      print('vendor tapped');
+                    },
+                  ),
+                  CustomListTile(
+                    leading: Icons.logout,
+                    title: Text("Logout"),
+                    onTap: () {
+                      loginController.logout();
+                      // Optionally, navigate to the login screen or show a confirmation dialog
+                      print('Logout tapped');
                     },
                   ),
                 ],

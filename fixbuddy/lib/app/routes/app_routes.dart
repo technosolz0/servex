@@ -2,10 +2,12 @@
 
 abstract class Routes {
   Routes._();
+  static const splash = _Paths.splash;
   static const mainScreen = _Paths.mainScreen;
   static const register = _Paths.register;
   static const verifyOtp = _Paths.verifyOtp;
   static const login = _Paths.login;
+  static const providerRegister = _Paths.providerRegister;
   static const home = _Paths.home;
   static const booking = _Paths.booking;
   static const wallet = _Paths.wallet;
@@ -16,10 +18,12 @@ abstract class Routes {
 
 abstract class _Paths {
   _Paths._();
+  static const splash = '/splash';
   static const mainScreen = '/mainScreen';
-  static const register= '/register';
-  static const verifyOtp= '/verify-otp';
+  static const register = '/register';
+  static const verifyOtp = '/verify-otp';
   static const login = '/login';
+  static const providerRegister = '/providerRegister';
   static const home = '/home';
   static const booking = '/booking';
   static const wallet = '/wallet';

@@ -1,9 +1,13 @@
+import 'package:fixbuddy/app/modules/VendorRegister/bindings/provider_register_binding.dart';
+import 'package:fixbuddy/app/modules/VendorRegister/views/provider_register_view.dart';
 import 'package:fixbuddy/app/modules/auth/bindings/verify_otp_binding.dart';
 import 'package:fixbuddy/app/modules/auth/views/verify_otp_screen.dart';
 import 'package:fixbuddy/app/modules/login/bindings/login_binding.dart';
 import 'package:fixbuddy/app/modules/login/views/login_view.dart';
 import 'package:fixbuddy/app/modules/register/bindings/registration_binding.dart';
 import 'package:fixbuddy/app/modules/register/views/registration_view.dart';
+import 'package:fixbuddy/app/modules/splash/bindings/splash_binding.dart';
+import 'package:fixbuddy/app/modules/splash/views/splash_view.dart';
 import 'package:get/get.dart';
 import 'package:fixbuddy/app/modules/Notification/bindings/notification_binding.dart';
 import 'package:fixbuddy/app/modules/Notification/views/notification_view.dart';
@@ -29,9 +33,14 @@ import 'package:fixbuddy/app/modules/profile/views/profile_view.dart';
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.login;
+  static const initial = Routes.splash;
 
   static final routes = [
+    GetPage(
+      name: Routes.splash,
+      page: () => SplashView(),
+      binding: SplashBinding(),
+    ),
     GetPage(
       name: Routes.mainScreen,
       page: () => MainScreen(),
@@ -59,6 +68,11 @@ class AppPages {
       binding: LoginBinding(),
     ),
     GetPage(
+      name: Routes.providerRegister,
+      page: () => ProviderRegisterView(),
+      binding: ProviderRegisterBinding(),
+    ),
+    GetPage(
       name: Routes.booking,
       page: () => const BookingView(),
       binding: BookingBinding(),
@@ -81,7 +95,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.setting,
-      page: () => const SettingView(),
+      page: () => SettingView(),
       binding: SettingBinding(),
     ),
   ];
