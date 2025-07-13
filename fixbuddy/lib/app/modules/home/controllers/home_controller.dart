@@ -1,3 +1,5 @@
+import 'package:fixbuddy/app/data/models/category_model.dart';
+import 'package:fixbuddy/app/data/services/category_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,7 +7,9 @@ class HomeController extends GetxController {
   var username = 'aamir'.obs;
   var location = 'Jivdani road Virar East-Virar-Maharashtra'.obs;
   final RxInt selectedIndex = 0.obs;
+  final categories = <CategoryModel>[].obs;
 
+  final CategoryApiService _categoryapiService = CategoryApiService();
   @override
   void onInit() {
     super.onInit();
@@ -13,6 +17,15 @@ class HomeController extends GetxController {
 
   void changeTab(int index) {
     selectedIndex.value = index;
+  }
+
+  void fetchCategories() async {
+    try {
+      final data = await _categoryapiService.fetchCategories();
+      categories.assignAll(data);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load categories');
+    }
   }
 
   // Map of sub-categories by main category title

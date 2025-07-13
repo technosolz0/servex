@@ -1,15 +1,31 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:fixbuddy/app/modules/VendorRegister/models/service_provider_register_model.dart';
+import 'package:fixbuddy/app/modules/VendorRegister/models/service_location_model.dart';
+import 'package:fixbuddy/app/modules/VendorRegister/services/provider_api_service.dart';
+import 'package:fixbuddy/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:fixbuddy/app/modules/VendorRegister/services/provider_api_service.dart';
-import 'package:fixbuddy/app/routes/app_routes.dart';
 
 class ProviderRegisterController extends GetxController {
+  // Category for registration
   final category = ''.obs;
-  final selectedLocations = <String>[].obs;
+  final states = ['Maharashtra', 'Delhi', 'Karnataka'];
+  final cities = {
+    'Maharashtra': ['Mumbai', 'Pune'],
+    'Delhi': ['Central Delhi', 'South Delhi'],
+    'Karnataka': ['Bengaluru', 'Mysuru'],
+  };
+
+  final categories = ['Electrician', 'Plumber', 'Carpenter'];
+  // Subcategories mapping
+  final subCategories = {
+    'Electrician': ['Wiring', 'Switch Repair', 'AC Installation'],
+    'Plumber': ['Leak Repair', 'Fitting', 'Water Tank Cleaning'],
+    'Carpenter': ['Furniture Making', 'Door Fitting', 'Repair Work'],
+  };
 
   // Address
   final addressController = TextEditingController();
@@ -17,11 +33,8 @@ class ProviderRegisterController extends GetxController {
   final landmarkController = TextEditingController();
   final pinCodeController = TextEditingController();
 
-  // Experience & About
-  final experienceController = TextEditingController();
+  // About & Bank
   final aboutController = TextEditingController();
-
-  // Bank
   final bankNameController = TextEditingController();
   final accountNameController = TextEditingController();
   final accountNumberController = TextEditingController();
@@ -37,26 +50,80 @@ class ProviderRegisterController extends GetxController {
 
   final ProviderApiService _apiService = ProviderApiService();
 
+  /// Service Location Form Fields
+  final selectedCategory = ''.obs;
+  final selectedSubCategory = ''.obs;
+  final selectedState = ''.obs;
+  final selectedCity = ''.obs;
+  final experienceController = TextEditingController();
+  final priceController = TextEditingController();
+
+  // List of Service Locations
+  final serviceLocations = <ServiceLocationModel>[].obs;
+
+  /// Available subcategories for selected category
+  List<String> get availableSubCategories =>
+      subCategories[selectedCategory.value] ?? [];
+
+  /// Pick Profile Image
   Future<void> pickProfilePic() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.camera);
     if (picked != null) profilePic.value = File(picked.path);
   }
 
+  /// Pick Address Proof
   Future<void> pickAddressProof() async {
     final result = await FilePicker.platform.pickFiles(type: FileType.any);
     if (result != null) addressProof.value = File(result.files.single.path!);
   }
 
+  /// Pick Bank Statement
   Future<void> pickBankStatement() async {
     final result = await FilePicker.platform.pickFiles(type: FileType.any);
     if (result != null) bankStatement.value = File(result.files.single.path!);
   }
 
+  /// Add Service Location Entry
+  void addServiceLocation() {
+    if (selectedCategory.value.isEmpty ||
+        selectedSubCategory.value.isEmpty ||
+        selectedState.value.isEmpty ||
+        selectedCity.value.isEmpty ||
+        priceController.text.isEmpty ||
+        experienceController.text.isEmpty) {
+      Get.snackbar('Error', 'Please fill all service location fields.');
+      return;
+    }
+    serviceLocations.add(
+      ServiceLocationModel(
+        category: selectedCategory.value,
+        subCategory: selectedSubCategory.value,
+        state: selectedState.value,
+        city: selectedCity.value,
+        charge: priceController.text,
+        experience: experienceController.text,
+      ),
+    );
+
+    clearServiceLocationForm();
+    Get.snackbar('Success', 'Service location added!');
+  }
+
+  /// Clear Service Location Form
+  void clearServiceLocationForm() {
+    selectedCategory.value = '';
+    selectedSubCategory.value = '';
+    selectedState.value = '';
+    selectedCity.value = '';
+    priceController.clear();
+    experienceController.clear();
+  }
+
+  /// Final Provider Registration
   Future<void> registerProvider() async {
     if (category.value.isEmpty ||
-        selectedLocations.isEmpty ||
+        serviceLocations.isEmpty ||
         addressController.text.isEmpty ||
-        experienceController.text.isEmpty ||
         bankNameController.text.isEmpty ||
         accountNumberController.text.isEmpty ||
         confirmAccountNumberController.text.isEmpty ||
@@ -76,15 +143,15 @@ class ProviderRegisterController extends GetxController {
     isLoading.value = true;
 
     try {
-      /// ✅ Create model instance
       final model = ServiceProviderRegisterModel(
         category: category.value,
-        serviceLocations: selectedLocations,
+        serviceLocations: serviceLocations
+            .map((e) => jsonEncode(e.toJson()))
+            .toList(),
         address: addressController.text,
         road: roadController.text,
         landmark: landmarkController.text,
         pinCode: pinCodeController.text,
-        experienceYears: int.tryParse(experienceController.text),
         about: aboutController.text,
         bankName: bankNameController.text,
         accountName: accountNameController.text,
@@ -95,7 +162,6 @@ class ProviderRegisterController extends GetxController {
         bankStatement: bankStatement.value!,
       );
 
-      /// ✅ Call the clean new register method
       await _apiService.registerServiceProvider(model);
 
       Get.snackbar('Success', 'Registered successfully!');
@@ -113,13 +179,14 @@ class ProviderRegisterController extends GetxController {
     roadController.dispose();
     landmarkController.dispose();
     pinCodeController.dispose();
-    experienceController.dispose();
     aboutController.dispose();
     bankNameController.dispose();
     accountNameController.dispose();
     accountNumberController.dispose();
     confirmAccountNumberController.dispose();
     ifscController.dispose();
+    experienceController.dispose();
+    priceController.dispose();
     super.onClose();
   }
 }

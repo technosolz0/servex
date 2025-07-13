@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fixbuddy/app/constants/api_constants.dart';
-import 'package:fixbuddy/app/routes/app_routes.dart';
-import 'package:fixbuddy/app/utils/local_storage.dart';
-import 'package:get/get.dart' hide Response;
-import 'package:get/get_core/src/get_main.dart';
 
 class AuthApiService {
   final Dio _dio = Dio(

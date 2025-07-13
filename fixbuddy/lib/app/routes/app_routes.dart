@@ -8,6 +8,7 @@ abstract class Routes {
   static const verifyOtp = _Paths.verifyOtp;
   static const login = _Paths.login;
   static const providerRegister = _Paths.providerRegister;
+  static const serviceLocationScreen = _Paths.serviceLocationScreen;
   static const home = _Paths.home;
   static const booking = _Paths.booking;
   static const wallet = _Paths.wallet;
@@ -24,6 +25,7 @@ abstract class _Paths {
   static const verifyOtp = '/verify-otp';
   static const login = '/login';
   static const providerRegister = '/providerRegister';
+  static const serviceLocationScreen = '/serviceLocationScreen';
   static const home = '/home';
   static const booking = '/booking';
   static const wallet = '/wallet';

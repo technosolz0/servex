@@ -1,5 +1,6 @@
 import 'package:fixbuddy/app/modules/VendorRegister/bindings/provider_register_binding.dart';
 import 'package:fixbuddy/app/modules/VendorRegister/views/provider_register_view.dart';
+import 'package:fixbuddy/app/modules/VendorRegister/views/widgets/ServiceConfigurationScreen.dart';
 import 'package:fixbuddy/app/modules/auth/bindings/verify_otp_binding.dart';
 import 'package:fixbuddy/app/modules/auth/views/verify_otp_screen.dart';
 import 'package:fixbuddy/app/modules/login/bindings/login_binding.dart';
@@ -71,6 +72,10 @@ class AppPages {
       name: Routes.providerRegister,
       page: () => ProviderRegisterView(),
       binding: ProviderRegisterBinding(),
+    ),
+    GetPage(
+      name: Routes.serviceLocationScreen,
+      page: () => ServiceLocationView(),
     ),
     GetPage(
       name: Routes.booking,
