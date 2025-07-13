@@ -178,7 +178,6 @@ class VerifyOtpController extends GetxController {
         fullName: user['name'],
         email: user['email'],
         mobile: user['mobile'],
-        profilePhoto: '',
       ),
     );
   }

@@ -3,9 +3,14 @@ import 'package:get/get.dart';
 import 'package:fixbuddy/app/modules/home/views/widgets/category_grid_widget.dart';
 import 'package:fixbuddy/app/constants/app_color.dart';
 import '../controllers/home_controller.dart';
+import 'package:fixbuddy/app/data/models/category_model.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  @override
+  final HomeController controller = Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -14,63 +19,14 @@ class HomeView extends GetView<HomeController> {
       backgroundColor: AppColors.grayColor,
       body: Stack(
         children: [
-          Container(
-            height: size.height * 0.34,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.primaryColor,
-                  AppColors.secondaryColor,
-                  AppColors.tritoryColor,
-                  AppColors.whiteColor,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
+          _buildHeaderBackground(size),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => Text(
-                          'Hello ${controller.username.value}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.notifications_none,
-                              size: 28,
-                            ),
-                            onPressed: () {
-                              // Navigate to notifications page
-                              Get.toNamed('/notification');
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.settings, size: 28),
-                            onPressed: () {
-                              // Navigate to notifications page
-                              Get.toNamed('/setting');
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  _buildHeaderRow(),
                   const SizedBox(height: 4),
                   Obx(
                     () => Text(
@@ -94,7 +50,9 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(height: 16),
                   Expanded(
                     child: CategoryGridWidget(
-                      onCategoryTap: controller.openSubCategories,
+                      onCategoryTap: (CategoryModel category) {
+                        controller.openSubCategories(category);
+                      },
                     ),
                   ),
                 ],
@@ -103,6 +61,54 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildHeaderBackground(Size size) {
+    return Container(
+      height: size.height * 0.34,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primaryColor,
+            AppColors.secondaryColor,
+            AppColors.tritoryColor,
+            AppColors.whiteColor,
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeaderRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Obx(
+          () => Text(
+            'Hello ${controller.username.value.split(' ').first.capitalizeFirst}!',
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.notifications_none, size: 28),
+              onPressed: () => Get.toNamed('/notification'),
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings, size: 28),
+              onPressed: () => Get.toNamed('/setting'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

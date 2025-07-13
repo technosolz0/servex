@@ -1,32 +1,34 @@
+import 'package:fixbuddy/app/utils/local_storage.dart';
 import 'package:get/get.dart';
+import 'package:fixbuddy/app/data/models/user_cached_model.dart';
+import 'dart:convert';
 
 class ProfileController extends GetxController {
-  // User details
-  var username = 'aamir'.obs;
-  var location = 'Jivdani road Virar East-Virar-Maharashtra'.obs;
-
-  // Optional: BottomNavigationBar index
+  var username = 'Guest'.obs;
+  var location = 'No Address Provided'.obs;
 
   final RxInt selectedIndex = 0.obs;
+
+  final LocalStorage _localStorage = LocalStorage();
 
   @override
   void onInit() {
     super.onInit();
-    // You can fetch user data from API or storage here later
+    loadUserFromCache();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    // Called when view is rendered
+  void loadUserFromCache() async {
+    String? userJson = await _localStorage.pref.read(
+      key: _localStorage.userDetailsKey,
+    );
+
+    if (userJson!.isNotEmpty) {
+      final user = UserCachedModel.fromJSON(jsonDecode(userJson));
+      username.value = user.fullName;
+      // location.value = user.address ?? 'No Address Provided';
+    }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  // Method to update selected tab (optional use)
   void changeTab(int index) {
     selectedIndex.value = index;
   }

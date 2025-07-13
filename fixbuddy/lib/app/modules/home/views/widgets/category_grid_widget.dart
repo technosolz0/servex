@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fixbuddy/app/constants/app_color.dart';
 import 'package:get/get.dart';
 import 'package:fixbuddy/app/modules/home/controllers/home_controller.dart';
+import 'package:fixbuddy/app/data/models/category_model.dart';
 
 class CategoryGridWidget extends StatelessWidget {
-  final Function(String) onCategoryTap;
+  final Function(CategoryModel) onCategoryTap;
 
   const CategoryGridWidget({super.key, required this.onCategoryTap});
 
@@ -30,7 +31,7 @@ class CategoryGridWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           final category = controller.categories[index];
           return GestureDetector(
-            onTap: () => onCategoryTap(category.name),
+            onTap: () => onCategoryTap(category),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -41,15 +42,18 @@ class CategoryGridWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      category.name,
+                      category.name.toUpperCase(),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 13),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 4),
                   Image.network(
                     '${ApiConstants.baseUrl}${category.image}',
-                    height: 50,
+                    height: 45,
                     errorBuilder: (context, error, stackTrace) {
                       return const Icon(
                         Icons.error,

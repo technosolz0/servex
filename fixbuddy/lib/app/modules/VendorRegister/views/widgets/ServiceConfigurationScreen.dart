@@ -1,4 +1,6 @@
-import 'package:fixbuddy/app/constants/app_color.dart';
+// ignore_for_file: file_names
+
+import '../../../../constants/app_color.dart' show AppColors;
 import 'package:fixbuddy/app/modules/VendorRegister/controllers/provider_register_controller.dart';
 import 'package:fixbuddy/app/modules/VendorRegister/models/service_location_model.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,8 @@ import 'package:get/get.dart';
 
 class ServiceLocationView extends StatelessWidget {
   final controller = Get.find<ProviderRegisterController>();
+
+  ServiceLocationView({super.key});
 
   @override
   Widget build(BuildContext context) {

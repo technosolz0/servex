@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 class ProviderRegisterView extends StatelessWidget {
   final controller = Get.put(ProviderRegisterController());
 
+  ProviderRegisterView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:fixbuddy/app/constants/app_color.dart';
 import 'package:fixbuddy/app/widgets/customListTile.dart';
 import 'package:fixbuddy/app/widgets/custom_app_bar.dart';
+import 'package:get/get.dart';
+import '../controllers/profile_controller.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
-
+class ProfileView extends GetView<ProfileController> {
+  ProfileView({super.key});
+  final ProfileController profilecontroller = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -19,7 +21,6 @@ class ProfileView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings, color: AppColors.blackColor),
             onPressed: () {
-              // Navigate to settings
               Navigator.pushNamed(context, '/setting');
             },
           ),
@@ -54,24 +55,28 @@ class ProfileView extends StatelessWidget {
                         backgroundColor: Colors.white,
                         child: Icon(Icons.person, size: 50, color: Colors.grey),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'User Name',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
+                          Obx(
+                            () => Text(
+                              profilecontroller.username.value,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 4),
-                          const Text(
-                            'username12@gmail.com',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black54,
+                          Obx(
+                            () => Text(
+                              profilecontroller.location.value,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black54,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -99,17 +104,15 @@ class ProfileView extends StatelessWidget {
                   // Custom List Tiles
                   CustomListTile(
                     leading: Icons.language,
-                    title: Text('Languages'),
+                    title: const Text('Languages'),
                     onTap: () {
                       print('Languages tapped');
                     },
                   ),
-
                   CustomListTile(
                     leading: Icons.location_on_outlined,
-                    title: Text('Location'),
+                    title: const Text('Location'),
                     onTap: () {
-                      // open location screen
                       print('Location tapped');
                     },
                   ),

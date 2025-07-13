@@ -13,10 +13,10 @@ class MainScreen extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
   final RxInt selectedIndex = 0.obs;
 
-  final List<Widget> screens = const [
+  final List<Widget> screens = [
     HomeView(),
-    BookingView(),
-    WalletView(),
+    const BookingView(),
+    const WalletView(),
     ProfileView(),
   ];
 

@@ -8,7 +8,7 @@ class ProviderApiService {
   /// Register service provider with multipart form data
   Future<Response> registerServiceProvider(ServiceProviderRegisterModel data) async {
     final formData = await data.toFormData();
-    final response = await _dio.post('/vendor/register', data: formData);
+    final response = await _dio.post('/api/vendor/register', data: formData);
 
     if (response.statusCode != 200) {
       throw Exception('Registration failed: ${response.statusCode}');
@@ -19,7 +19,7 @@ class ProviderApiService {
 
   /// Fetch service categories
   Future<Response> getServiceCategories() async {
-    final response = await _dio.get('/vendor/categories');
+    final response = await _dio.get('/api/vendor/categories');
     if (response.statusCode != 200) {
       throw Exception('Failed to load categories: ${response.statusCode}');
     }

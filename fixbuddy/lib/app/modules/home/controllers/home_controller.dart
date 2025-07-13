@@ -1,54 +1,93 @@
+import 'dart:convert';
+
+import 'package:fixbuddy/app/constants/api_constants.dart';
 import 'package:fixbuddy/app/data/models/category_model.dart';
+import 'package:fixbuddy/app/data/models/service_model.dart';
+import 'package:fixbuddy/app/data/models/subcategory_model.dart';
+import 'package:fixbuddy/app/data/models/user_cached_model.dart';
 import 'package:fixbuddy/app/data/services/category_service.dart';
+import 'package:fixbuddy/app/data/services/service_service.dart';
+import 'package:fixbuddy/app/data/services/subcategory_service.dart';
+import 'package:fixbuddy/app/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var username = 'aamir'.obs;
-  var location = 'Jivdani road Virar East-Virar-Maharashtra'.obs;
+  var username = ''.obs;
+  var location = ''.obs;
   final RxInt selectedIndex = 0.obs;
   final categories = <CategoryModel>[].obs;
+  final subcategories = <SubcategoryModel>[].obs;
+  final services = <ServiceModel>[].obs;
 
-  final CategoryApiService _categoryapiService = CategoryApiService();
+  final CategoryApiService _categoryApiService = CategoryApiService();
+  final SubcategoryApiService _subcategoryApiService = SubcategoryApiService();
+  final ServiceApiService _serviceApiService = ServiceApiService();
+
+  final LocalStorage _localStorage = LocalStorage();
+
   @override
   void onInit() {
     super.onInit();
+    loadUserFromCache();
+    fetchCategories();
+    fetchSubcategories();
+    fetchServices();
   }
 
   void changeTab(int index) {
     selectedIndex.value = index;
   }
 
+  void loadUserFromCache() async {
+    String? userJson = await _localStorage.pref.read(
+      key: _localStorage.userDetailsKey,
+    );
+    if (userJson != null) {
+      final user = UserCachedModel.fromJSON(jsonDecode(userJson));
+      username.value = user.fullName;
+      // location.value = user.address ?? 'No Address Provided';
+    }
+  }
+
   void fetchCategories() async {
     try {
-      final data = await _categoryapiService.fetchCategories();
+      final data = await _categoryApiService.fetchCategories();
       categories.assignAll(data);
     } catch (e) {
       Get.snackbar('Error', 'Failed to load categories');
     }
   }
 
-  // Map of sub-categories by main category title
-  final Map<String, List<Map<String, String>>> subCategories = {
-    'Cleaning & Pest Control': [
-      {'title': 'Bathroom Cleaning', 'icon': 'assets/icons/bathroom.png'},
-      {'title': 'Kitchen Cleaning', 'icon': 'assets/icons/kitchen.png'},
-      {'title': 'Full Home Cleaning', 'icon': 'assets/icons/home.png'},
-      {'title': 'Sofa & Carpet Cleaning', 'icon': 'assets/icons/sofa.png'},
-      {'title': 'Cockroach Control', 'icon': 'assets/icons/pest1.png'},
-      {'title': 'Termite Control', 'icon': 'assets/icons/pest2.png'},
-      {'title': 'Bed Bug Control', 'icon': 'assets/icons/pest3.png'},
-    ],
-  };
+  void fetchSubcategories() async {
+    try {
+      final data = await _subcategoryApiService.fetchSubcategories();
+      subcategories.assignAll(data);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load subcategories');
+    }
+  }
+
+  void fetchServices() async {
+    try {
+      final data = await _serviceApiService.fetchServices();
+      services.assignAll(data);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load services');
+    }
+  }
 
   // Function to open sub-category bottom sheet
-  void openSubCategories(String categoryTitle) {
-    final selectedSubCategories = subCategories[categoryTitle];
+  void openSubCategories(CategoryModel category) {
+    // filter subcategories by category.id
+    final selectedSubCategories = subcategories
+        .where((sub) => sub.categoryId == category.id)
+        .toList();
 
-    if (selectedSubCategories == null) {
+    if (selectedSubCategories.isEmpty) {
       Get.snackbar(
         'Coming Soon',
-        'Sub categories for $categoryTitle not added yet.',
+        'No sub-categories for ${category.name} added yet.',
       );
       return;
     }
@@ -68,7 +107,7 @@ class HomeController extends GetxController {
               children: [
                 Expanded(
                   child: Text(
-                    categoryTitle,
+                    category.name,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -95,26 +134,30 @@ class HomeController extends GetxController {
               itemBuilder: (context, index) {
                 final sub = selectedSubCategories[index];
                 return Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 238, 238, 238),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Column(
                     children: [
-                      Image.asset(
-                        sub['icon']!,
-                        height: 36,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                              size: 50,
-                            ),
-                      ),
+                      // show image from API or placeholder
+                      if (sub.image != null)
+                        Image.network(
+                          '${ApiConstants.baseUrl}${sub.image}',
+                          height: 36,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                                size: 36,
+                              ),
+                        )
+                      else
+                        const Icon(Icons.image, size: 36),
                       const SizedBox(height: 6),
                       Text(
-                        sub['title']!,
+                        sub.name,
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 11),
                       ),

@@ -47,11 +47,7 @@ class AppPages {
       page: () => MainScreen(),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: Routes.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
+    GetPage(name: Routes.home, page: () => HomeView(), binding: HomeBinding()),
     GetPage(
       name: Routes.register,
       page: () => RegistrationView(),
@@ -89,7 +85,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.profile,
-      page: () => const ProfileView(),
+      page: () => ProfileView(),
       binding: ProfileBinding(),
     ),
 

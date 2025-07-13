@@ -20,7 +20,7 @@ class AuthApiService {
     required String mobile,
   }) async {
     return await _dio.post(
-      'users/register-otp',
+      '/api/users/register-otp',
       data: {'name': name, 'email': email, 'mobile': mobile},
     );
   }
@@ -30,17 +30,17 @@ class AuthApiService {
     required String otp,
   }) async {
     return await _dio.post(
-      'users/verify-otp',
+      '/api/users/verify-otp',
       data: {'email': email, 'otp': otp},
     );
   }
 
   Future<Response> resendRegistrationOtp(String email) async {
-    return await _dio.post('users/resend-otp', data: {'email': email});
+    return await _dio.post('/api/users/resend-otp', data: {'email': email});
   }
 
   Future<Response> sendLoginOtp(String email) async {
-    return await _dio.post('users/send-login-otp', data: {'email': email});
+    return await _dio.post('/api/users/send-login-otp', data: {'email': email});
   }
 
   Future<Response> verifyLoginOtp({
@@ -48,14 +48,15 @@ class AuthApiService {
     required String otp,
   }) async {
     return await _dio.post(
-      'users/verify-login-otp',
+      '/api/users/verify-login-otp',
       data: {'email': email, 'otp': otp},
     );
   }
 
   Future<Response> resendLoginOtp(String email) async {
-    return await _dio.post('users/resend-login-otp', data: {'email': email});
+    return await _dio.post(
+      '/api/users/resend-login-otp',
+      data: {'email': email},
+    );
   }
-
- 
 }

@@ -10,7 +10,7 @@ class CategoryApiService {
   );
 
   Future<List<CategoryModel>> fetchCategories() async {
-    final response = await _dio.get('/categories/');
+    final response = await _dio.get('/api/categories/');
 
     if (response.statusCode == 200) {
       final List data = response.data;
